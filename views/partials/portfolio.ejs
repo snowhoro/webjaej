@@ -1,0 +1,48 @@
+<section id="portfolio" class="section-padding">
+    <div class="container">
+        <div class="row wow animated fadeInDown">
+            <div class="col-md-12 text-center hero-title">
+                <i class="fa fa-plane"></i>
+                <h2 class="page-title">Our portfolio</h2>
+                <p>Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits. Dramatically visualize customer directed convergence without revolutionary ROI. Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas. </p>
+            </div><!--hero title end-->
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 wow animated fadeInUp">
+                <ul class="portfolio-filters text-center">
+                    <li class="filter active" data-filter="*">Todos</li>
+                    <% filters.forEach(function(filter){ %>
+                        <li class="filter" data-filter=<%= filter.datafilter %> > <%= filter.name %> </li>
+                    <% }); %>
+                        <!-- <li class="filter" data-filter=".design">Quirófano</li>
+                        <li class="filter" data-filter=".html">Cardiología</li>
+                        <li class="filter" data-filter=".html">Cuidados Críticos</li>
+                        <li class="filter" data-filter=".wordpress">Internación</li>
+                        <li class="filter" data-filter=".seo">Materno Infantil</li>
+                        <li class="filter" data-filter=".html">Emergencias</li>
+                        <li class="filter" data-filter=".wordpress">RMN</li>
+                        <li class="filter" data-filter=".seo">VNI</li> -->
+                </ul><!--.portfolio-filter nav-->
+
+                <div id="portfolio_list" class="row">
+
+                    <% products.forEach(function(product){ %>
+                        <div class="col-sm-4 col-xs-12 pitem <%= product.filter %>">
+                            <div class="portfolio_item">
+                                <img class="img-responsive" src=<%= product.src %> alt="" />
+                                <div class="portfolio-detail">
+                                    <div class="portfolio-overlay">
+                                        <p> <%= product.name %> </p>
+                                    </div>
+                                    <a href=<%= product.href %> data-litebox-group="myGallery" >  </a>
+                                    <!-- class="litebox" -->
+                                </div>
+                            </div>
+                        </div><!--portfolio col end-->
+                    <% }); %>
+                </div><!--#grid for filter items-->
+            </div><!--.col-md-12 of portfolio filter-->
+        </div><!--.row-->
+    </div>
+</section>
