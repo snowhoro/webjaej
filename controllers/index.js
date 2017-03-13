@@ -1,5 +1,12 @@
+const menulist = require('../models/menulist.model');
+const subcategories = require('../models/subcategory.model');
+const categories = require('../models/category.model');
+
 module.exports.controller = function (app) {
     app.get('/', function (req, res) {
+
+        const lang = req.acceptsLanguages(['es','en']);
+
         let partners = [
             { name: "", src: "img/demo-images/partners/01.png"},
             { name: "", src: "img/demo-images/partners/02.png"},
@@ -10,10 +17,9 @@ module.exports.controller = function (app) {
             { name: "", src: "img/demo-images/partners/07.png"},
             { name: "", src: "img/demo-images/partners/08.png"},
             { name: "", src: "img/demo-images/partners/09.png"}
-            ];
-
+        ];
         let filters = [
-            { name: "Quirófano", datafilter: ".quirofano" },
+            { name: "Quirófano", datafilter: ".1" },
             { name: "Cardiología" , datafilter: ".cardiologia" },
             { name: "Cuidados Críticos", datafilter: ".cuidados" },
             { name: "Internación", datafilter: ".internacion" },
@@ -22,29 +28,28 @@ module.exports.controller = function (app) {
             { name: "RMN", datafilter: ".rmn" },
             { name: "VNI", datafilter: ".vni" }
         ];
-
         let products = [
             {
                 name:"Estación de Anestesia",
-                filter:"quirofano",
+                filter:"1",
                 src:"img/demo-images/products/thumb_anestesia1.jpg",
                 href:"/product"
             },
             {
                 name:"Mesa de Cirugía",
-                filter:"quirofano",
+                filter:"1",
                 src:"img/demo-images/products/thumb_mesa_cirugia1.jpg",
                 href:"/product"
             },
             {
                 name:"Lámpara Scialitica",
-                filter:"quirofano",
+                filter:"1",
                 src:"img/demo-images/products/thumb_scialitica1.jpg",
                 href:"/product"
             },
             {
                 name:"Quirófano Inteligente",
-                filter:"quirofano",
+                filter:"1",
                 src:"img/demo-images/portfolio/thumb/04.jpg",
                 href:"/product"
             },
@@ -98,6 +103,18 @@ module.exports.controller = function (app) {
             },
 
         ];
-        res.render('index', { partners: partners, filters: filters, products: products });
+
+
+        /*categories.findOne({}).populate('subcategories').exec((err, category) => {
+            if (err) throw err;
+            console.log(category);
+        });*/
+
+        menulist.find({active:true})
+            .sort( {order: 'asc'} )
+            .exec((err, menus) => {
+                if (err) throw err;
+                res.render('index', { lang: lang, menus: menus, partners: partners, filters: filters, products: products });
+        });
     });
-}
+};

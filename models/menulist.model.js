@@ -1,17 +1,21 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const productSchema = new Schema({
+const menulistSchema = new Schema({
     name: {
+        es: {
+            type: String,
+            required: true
+        },
+        en: {
+            type: String,
+            required: true
+        }
+    },
+    href: {
         type: String,
         required: true
     },
-    categories: [Number],
-    subcategory: Number,
-    brand: Number,
-    description: String,
-    img: String,
-    file: String,
     order: Number,
     created_on: {
         type: Date,
@@ -27,4 +31,4 @@ const productSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('product', productSchema);
+module.exports = mongoose.model('menulist', menulistSchema);

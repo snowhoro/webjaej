@@ -1,24 +1,38 @@
-var express = require('express');
-var mongoose = require('mongoose');
-var app = express();
-var config = require('./config');
-var fs = require('fs');
-var i18n = require('i18n');
+const express = require('express'),
+    app = express(),
+    mongoose = require('mongoose'),
+    bodyParser = require('body-parser'),
+    config = require('./config'),
+    fs = require('fs'),
+    i18n = require('i18n-2'),
+    autoIncrement = require('mongoose-auto-increment');
 
 //db connection
 mongoose.connect(config.test_db);
-var dbconnect = mongoose.connection;
+const dbconnect = mongoose.connection;
+autoIncrement.initialize(dbconnect);
 dbconnect.on('error', console.error.bind(console, 'connection error:'));
-dbconnect.on('open', console.log.bind(console, 'connection ok'));
-
-
-i18n.configure({
-    // setup some locales - other locales default to en silently
-    locales: ['en', 'es'],
-    directory: __dirname + '/locales',
+dbconnect.on('open', () => {
+    console.log('connection ok');
+    const createDB = require("./createDB");
+    createDB();
 });
 
-app.use(i18n.init);
+i18n.expressBind(app, {
+    locales: ['en', 'es'],
+    defaultLocale: 'en',
+    directory: __dirname + '/locales',
+    cookieName: 'locale',
+    extension: '.json'
+});
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+/*app.use((req, res, next) => {
+    //req.i18n.setLocale('en');
+    next();
+});*/
 
 // dynamically include routes (Controller)
 fs.readdirSync('./controllers').forEach(function (file) {
